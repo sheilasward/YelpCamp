@@ -4,7 +4,12 @@
 
 <p>{{campground.description}}</p>
 
+<p>
+    <a class="btn btn-success" href="/campgrounds/{{campground._id}}/comments/new">Add New Comment</a>
+</p>
+
 {{#each campground.comments}}
     <p>
         <strong>{{this.author}}</strong> - {{this.text}}</p>
 {{/each}}
+

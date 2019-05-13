@@ -34,10 +34,9 @@ app.get("/campgrounds", (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            res.render("index", {campgrounds:allCampgrounds})
+            res.render("campgrounds/index", {campgrounds:allCampgrounds})
         }
     })
-    //res.render("campgrounds", {campgrounds: campgrounds})
 })
 
 app.post("/campgrounds", (req, res) => {
@@ -62,7 +61,7 @@ app.post("/campgrounds", (req, res) => {
 // Ogeechee River,  https://farm4.staticflickr.com/3304/3202553450_128f1baf6b.jpg
 
 app.get("/campgrounds/new", (req, res) => {
-    res.render("newCG")
+    res.render("campgrounds/newCG")
 })
 
 
@@ -75,9 +74,46 @@ app.get("/campgrounds/:id", (req, res) => {
         } else {
             console.log(foundCampground)
             // render show template with that campground
-            res.render("show", {campground: foundCampground})
+            res.render("campgrounds/show", {campground: foundCampground})
         }
     })
+})
+
+// ===============
+// COMMENTS ROUTES
+// ===============
+
+app.get("/campgrounds/:id/comments/new", (req, res) => {
+    Campground.findById(req.params.id, function(err, campground){
+        if (err){
+            console.log(err)
+        } else {
+            res.render("comments/new", {campground: campground})
+        }
+    })
+})
+
+app.post("/campgrounds/:id/comments", (req, res) => {
+    // lookup campground using ID
+    Campground.findById(req.params.id, function(err, campground) {
+        if (err) {
+            console.log(err);
+            res.redirect("/campgrounds")
+        } else {
+            Comment.create(req.body.comment, function(err, comment) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    campground.comments.push(comment)
+                    campground.save()
+                    res.redirect("/campgrounds/" + campground._id)
+                }
+            })
+        }
+    })
+    // create new comment
+    // connect new comment to campground
+    // redirect campground show page
 })
 
 app.listen(PORT, () => console.log("The YelpCamp Server Has Started!"))

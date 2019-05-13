@@ -36,15 +36,6 @@ Each Campground has:
 * Show db.collection.drop()
 * Add a show route/template
 
-RESTFUL ROUTES
-
-name     url        verb      desc
-=================================================
-INDEX   /dogs       GET     Display a list of all dog
-NEW     /dogs/new   GET     Displays form to make a new dog
-CREATE  /dogs       POST    Add new dog to DB
-SHOW    /dogs/:id   GET     Shows info about one dog
-
 #Refactor Mongoose Code
 * Create a models directory
 * Use module.exports
@@ -58,3 +49,20 @@ SHOW    /dogs/:id   GET     Shows info about one dog
 * Make our errors go away
 * Display comments on campground show page
 
+#Comment New/Create
+* Discuss nested routes
+* Add the comment new and create routes
+* Add the new comment form
+
+RESTFUL ROUTES
+
+name     url                            verb      desc
+===========================================================================
+INDEX   /campgrounds                    GET     Display a list of all campgrounds
+NEW     /campgrounds/new                GET     Displays form to make a new campground
+CREATE  /campgrounds                    POST    Add new campground to campground collection
+SHOW    /campgrounds/:id                GET     Shows info about one campground
+
+(nested routes)
+NEW     /campgrounds/:id/comments/new   GET     Displays a form to make a new comment about one campground
+CREATE  /campgrounds/:id/comments       POST    Add new comment to campground and comment collections
