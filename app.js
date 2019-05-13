@@ -3,7 +3,13 @@ const express = require("express"),
       bodyParser = require("body-parser"),
       mongoose = require("mongoose"),
       app = express(),
-      PORT = process.env.PORT || 3000
+      PORT = process.env.PORT || 3000;
+
+// Require models
+const Campground = require("./models/campground"),
+      Comment = require("./models/comment"),
+      User = require("./models/user"),
+      seedDB = require("./seeds"); 
 
 // turn on debugging so you can see what's being sent to mongodb
 mongoose.set("debug", true);
@@ -16,45 +22,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set("view engine", "handlebars")
 app.use(bodyParser.urlencoded({extended: true}))
 
-// Schema Setup
-let campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-})
-
-let Campground = mongoose.model("Campground", campgroundSchema)
-
-/*
-Campground.create(
-    {
-        name: "Granite Hill",
-        image: "https://farm5.staticflickr.com/4044/4175370953_5488caf554.jpg",
-        description: "This is a huge granite hill, no bathrooms, no water.  Beautiful granite!"
-    }, function(err, campground) {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log("NEWLY CREATED CAMPGROUND: ")
-            console.log(campground)
-        }
-    }
-)
-*/
-/*
- // Campground data
-let campgrounds = [
-    {name: "Salmon Creek", image: "https://farm2.staticflickr.com/1274/4670974422_ec49d65ab2.jpg"},
-    {name: "Granite Hill", image: "https://farm5.staticflickr.com/4044/4175370953_5488caf554.jpg"},
-    {name: "Mountain Goat's Rest", image: "https://farm1.staticflickr.com/82/225912054_690e32830d.jpg"},
-    {name: "Daisy Mountain", image: "https://farm9.staticflickr.com/8283/7642409496_c042aa25f1.jpg"},
-    {name: "Ogeechee River", image: "https://farm4.staticflickr.com/3304/3202553450_128f1baf6b.jpg"},
-    {name: "Salmon Creek", image: "https://farm2.staticflickr.com/1274/4670974422_ec49d65ab2.jpg"},
-    {name: "Granite Hill", image: "https://farm5.staticflickr.com/4044/4175370953_5488caf554.jpg"},
-    {name: "Mountain Goat's Rest", image: "https://farm1.staticflickr.com/82/225912054_690e32830d.jpg"},
-    {name: "Daisy Mountain", image: "https://farm9.staticflickr.com/8283/7642409496_c042aa25f1.jpg"},
-    {name: "Ogeechee River", image: "https://farm4.staticflickr.com/3304/3202553450_128f1baf6b.jpg"}
-] */
+seedDB();
 
 // Routes
 app.get("/", (req, res) => res.render("landing"))
@@ -101,10 +69,11 @@ app.get("/campgrounds/new", (req, res) => {
 // SHOW - shows more info about one campground
 app.get("/campgrounds/:id", (req, res) => {
     // Find the campground with the provided ID
-    Campground.findById(req.params.id, function(err, foundCampground) {
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground) {
         if(err) {
             console.log(err)
         } else {
+            console.log(foundCampground)
             // render show template with that campground
             res.render("show", {campground: foundCampground})
         }
