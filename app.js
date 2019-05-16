@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"))
 
 // Seed the databases
-seedDB();
+//seedDB();
 
 // Configure Passport
 app.use(require("express-session")({
