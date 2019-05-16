@@ -20,18 +20,24 @@ router.post("/", isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, function(err, campground) {
         if (err) {
             console.log(err);
-            res.redirect("/campgrounds")
+            res.redirect("/campgrounds");
         } else {
             // Create new comment
             Comment.create(req.body.comment, function(err, comment) {
                 if (err) {
-                    console.log(err)
+                    console.log(err);
                 } else {
+                    // Add username and id to comment
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    // Save comment
+                    comment.save();
                     // Connect new comment to campground
-                    campground.comments.push(comment)
-                    campground.save()
+                    campground.comments.push(comment);
+                    campground.save();
+                    console.log(comment);
                     // Redirect campground show page
-                    res.redirect("/campgrounds/" + campground._id)
+                    res.redirect("/campgrounds/" + campground._id);
                 }
             })
         }
