@@ -14,25 +14,25 @@ router.get("/", (req, res) => {
     })
 })
 
-// Show new campground form
-router.get("/new", (req, res) => {
-    res.render("campgrounds/newCG")
-})
-
-// Post new campground information into campground db
-router.post("/", (req, res) => {
+// CREATE: Post new campground information into campground db
+router.post("/", isLoggedIn, (req, res) => {
     // get data from form and add to campgrounds array
     let newName = req.body.CGname
     let newImg = req.body.CGimage
     let newDesc = req.body.CGdescription
-    let newCampground = {name: newName, image: newImg, description: newDesc}
+    let author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    let newCampground = {name: newName, image: newImg, description: newDesc, author:author}
     // Create a new campground and save to DB
     Campground.create(newCampground, function(err, newlyCreated) {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
+            console.log(newlyCreated);
             // redirect back to campgrounds page
-            res.redirect("/campgrounds")
+            res.redirect("/campgrounds");
         }
     })
 })
@@ -40,8 +40,14 @@ router.post("/", (req, res) => {
 // Images are from photosforclass.com (search camping)
 // Daisy Mountain,  https://farm9.staticflickr.com/8283/7642409496_c042aa25f1.jpg
 // Ogeechee River,  https://farm4.staticflickr.com/3304/3202553450_128f1baf6b.jpg
+// Deserty Desert,  https://farm9.staticflickr.com/8236/8510529942_cdddc7175d.jpg
 
-// Shows more info about one particular campground
+// NEW: new campground form
+router.get("/new", isLoggedIn, (req, res) => {
+    res.render("campgrounds/newCG")
+})
+
+// SHOW: Shows more info about one particular campground
 router.get("/:id", (req, res) => {
     // Find the campground with the provided ID
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground) {
