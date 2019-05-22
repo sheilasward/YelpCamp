@@ -1,6 +1,13 @@
 const express = require("express"),
+      app = express(),
       router = express.Router(),
+      Handlebars = require("express-handlebars"),
+      User = require("../models/user"),
       Campground = require("../models/campground");
+
+// Set Handlebars
+app.engine('handlebars', Handlebars({ defaultLayout: 'main' }))
+app.set('view engine', 'handlebars')
 
 // Show all campgrounds
 router.get("/", (req, res) => {
@@ -55,11 +62,60 @@ router.get("/:id", (req, res) => {
             console.log(err)
         } else {
             console.log(foundCampground)
-            // render show template with that campground
-            res.render("campgrounds/show", {campground: foundCampground})
+            res.render("campgrounds/show", {
+                campground: foundCampground, 
+                helpers: {
+                    compUser: function(userID) {
+                        if (req.isAuthenticated()) {
+                            if (foundCampground.author.id.equals(req.user._id)) {
+                                return (
+                                '<div>' +
+                                '    <a class="btn btn-warning" href="/campgrounds/{{campground._id}}/edit">Edit</a>' +
+                                '    <form id="delete-form" action="/campgrounds/{{campground._id}}?_method=DELETE" method="POST">' +
+                                '        <button class="btn btn-danger">Delete</button>' + 
+                                '    </form>' +
+                                '</div>'
+                                )
+                            } 
+                        }
+                    }
+                }
+            })  
         }
     })
 })
+
+// EDIT: Edit campground route
+router.get("/:id/edit", checkCampgroundOwnership, (req, res) => {
+    Campground.findById(req.params.id, function (err, foundCampground) {
+        res.render("campgrounds/edit", {campground: foundCampground})
+    })
+})
+
+// UPDATE: Update campground route
+router.put("/:id", checkCampgroundOwnership, (req, res) => {
+    // find and update the correct campground
+    Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground) {
+        if (err) {
+            res.redirect("/campgrounds")
+        } else {
+            // redirect somewhere (show page)
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    })
+})
+
+// DESTROY: Destroy campground route
+router.delete("/:id", checkCampgroundOwnership, (req, res) => {
+    Campground.findByIdAndRemove(req.params.id, function(err) {
+        if (err) {
+            res.redirect("/campgrounds")
+        } else {
+            res.redirect("/campgrounds")
+        }
+    })
+})
+
 
 // Middleware
 function isLoggedIn(req, res, next) {
@@ -67,6 +123,28 @@ function isLoggedIn(req, res, next) {
         return next();
     }
     res.redirect("/login");
+}
+
+function checkCampgroundOwnership(req, res, next) {
+    if (req.isAuthenticated()) {
+        Campground.findById(req.params.id, function (err, foundCampground) {
+            if (err) {
+                res.redirect("back")
+            } else {
+                // Does User own the campground?
+                // (use the "equals" method to compare object to string)
+                if (foundCampground.author.id.equals(req.user._id)) {
+                    next()
+                } else {
+                    // User does not own campground
+                    res.redirect ("back")
+                }
+            }
+        })
+    } else {
+        // User is not logged in - redirect
+        res.redirect("back")  // to previous page
+    }
 }
 
 module.exports = router;

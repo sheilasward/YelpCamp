@@ -17,6 +17,14 @@
                     <h4 class="card-title"><a>{{campground.name}}</a></h4>
                     <p>{{campground.description}}</p>
                     <p><em>Submitted by {{campground.author.username}}</em></p>
+                    {{#compUser req.user._id}}
+                    <!--  Had to put this into the route to return...
+                        <a class="btn btn-warning" href="/campgrounds/{{campground._id}}/edit">Edit</a>
+                        <form id="delete-form" action="/campgrounds/{{campground._id}}?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    -->
+                    {{/compUser}}
                 </div>
             </div>
             <div class="card px-2 py-2 mt-4 card-footer text-muted">
