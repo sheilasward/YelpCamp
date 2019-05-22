@@ -7,3 +7,7 @@
     text-align: center;
 }
 
+#delete-form {
+    display: inline;
+    margin-left: 10px;
+}

@@ -4,6 +4,7 @@ const express = require("express"),
       mongoose = require("mongoose"),
       passport = require("passport"),
       LocalStrategy = require("passport-local"),
+      methodOverride = require("method-override"),
       app = express(),
       PORT = process.env.PORT || 3000;
 
@@ -29,6 +30,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set("view engine", "handlebars")
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"))
+app.use(methodOverride("_method"))
 
 // Seed the databases
 //seedDB();
