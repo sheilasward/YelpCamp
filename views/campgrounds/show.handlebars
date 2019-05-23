@@ -17,34 +17,44 @@
                     <h4 class="card-title"><a>{{campground.name}}</a></h4>
                     <p>{{campground.description}}</p>
                     <p><em>Submitted by {{campground.author.username}}</em></p>
-                    {{#compUser req.user._id}}
-                    <!--  Had to put this into the route to return...
+                    {{#ifCond req.user._id}}
                         <a class="btn btn-warning" href="/campgrounds/{{campground._id}}/edit">Edit</a>
-                        <form id="delete-form" action="/campgrounds/{{campground._id}}?_method=DELETE" method="POST">
+                        <form class="delete-form" action="/campgrounds/{{campground._id}}?_method=DELETE" method="POST">
                             <button class="btn btn-danger">Delete</button>
                         </form>
-                    -->
-                    {{/compUser}}
+                    {{/ifCond}}
                 </div>
             </div>
             <div class="card px-2 py-2 mt-4 card-footer text-muted">
                 <div class="text-right">
                     <a class="btn btn-success" href="/campgrounds/{{campground._id}}/comments/new">Add New Comment</a>
                 </div>
-                <div class="mx-4">
+                {{!-- <div class="mx-4">
                     <hr>
-                </div>
+                </div> --}}
                 {{#each campground.comments}}
+                    <div class="mx-4">
+                        <hr>
+                    </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 ml-3">
                             <strong>{{this.author.username}}</strong>
-                            <span class="float-right">10 days ago</span>
+                            <span class="float-right mr-4">10 days ago</span>
                             <p>{{this.text}}</p>
+
+                            {{#ifComm this.author.id}}
+                                <a class="btn btn-xs btn-warning" href="/campgrounds/{{cgID this.id}}/comments/{{this.id}}/edit">Edit</a>
+                                <form class="delete-form" action="/campgrounds/{{cgID this.id}}/comments/{{this.id}}?_method=DELETE" method="POST">
+                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                                </form>
+                            {{/ifComm}}
                         </div>
                     </div>
+                    
                 {{/each}}
             </div>
         </div>
     </div>
 </div>
+
 
