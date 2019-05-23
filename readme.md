@@ -101,12 +101,36 @@ Each Campground has:
 * Add Destroy Route
 * Add Delete Button
 
-#Authorization
+#Authorization Part 1:  Campgrounds
 * User can only edit his/her campgrounds
 * User can only delete his/her campgrounds
 * Hide/Show edit and delete buttons
 
-#Refactoring Middleware
+#Editing Comments
+* Add Edit route for comments
+* Add Edit button
+* Add Update route
+
+Campground Edit Route:  /campgrounds/:id/edit
+Comment Edit Route:  /campgrounds/:id/comments/:id/edit  (note: the two /:id/ are not the same)
+The first /:id/ is the campground id, where the second /:id/ is the comment id, so...
+Comment Edit Route:  /campgrounds/:id/comments/:comment_id/edit
+But the route has been shortened by setting in app.js: app.use("/campgrounds/:id/comments", commentRoutes);
+So... 
+Comment Edit Route:  /:comment_id/edit
+
+#Deleting Comments
+* Add Destroy route
+* Add Delete Button
+
+Campground Destroy Route:  /campgrounds/:id
+Comment Destroy Route: /campgrounds/:id/comments/:comment_id =>  /:comment_id
+
+#Authorization Part 2:  Comments
+* User can only edit his/her comments
+* User can only delete his/her comments
+* Hide/Show edit and delete buttons
+* Refactor Middleware
 
 
 
