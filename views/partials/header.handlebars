@@ -40,3 +40,26 @@
   </div>
 </nav>
 <br/><br/>
+
+<div class="container">
+  <!--  Handle a flash error -->
+  {{#if error}}
+    <div class="container alert alert-danger" role="alert">
+        {{error}}
+    </div>
+  {{else}}
+    <div style="[display:none]">
+    </div>
+  {{/if}}
+
+  <!-- Handle a flash success -->
+  {{#if success}}
+    <div class="container alert alert-success" role="alert">
+        {{success}}
+    </div>
+  {{else}}
+    <div style="[display:none]">
+    </div>
+  {{/if}}
+
+</div>
