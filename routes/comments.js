@@ -40,7 +40,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
                     console.log(comment);
                     // Redirect campground show page
                     req.flash("success", "Comment added!")
-                    res.redirect("/campgrounds/" + campground._id);
+                    return res.redirect("/campgrounds/" + campground._id);
                 }
             })
         }
