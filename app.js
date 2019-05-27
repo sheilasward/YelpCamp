@@ -26,6 +26,8 @@ mongoose.set("debug", true);
 // Connect to the Mongo DB
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/yelp_camp";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+// do this (below) to keep from having warnings when using findByIdAndUpdate
+mongoose.set("useFindAndModify", false)
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set("view engine", "handlebars")
