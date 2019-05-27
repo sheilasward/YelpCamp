@@ -126,13 +126,33 @@ router.put("/:id", middleware.checkCampgroundOwnership, (req, res) => {
 
 // DESTROY: Destroy campground route
 router.delete("/:id", middleware.checkCampgroundOwnership, (req, res) => {
-    Campground.findByIdAndRemove(req.params.id, function(err) {
+    Campground.findById(req.params.id, function (err, campground) {
         if (err) {
-            req.flash("error", "Not able to delete campground")
+            console.log(err)
             res.redirect("/campgrounds")
         } else {
-            req.flash("success", "Campground deleted!")
-            res.redirect("/campgrounds")
+            console.log(campground.comments)
+            var i = campground.comments.length
+            while (i--) {
+                console.log("comment id: " + campground.comments[i])
+                Comment.findByIdAndRemove(campground.comments[i], function(err) {
+                    if (err) {
+                        req.flash("error", "Could not delete comment")
+                        return res.redirect("back")
+                    } else {
+                        console.log("comment successfully removed!")
+                    }
+                })
+            }
+            Campground.findByIdAndRemove(req.params.id, function (err) {
+                if (err) {
+                    req.flash("error", "Could not delete campground")
+                    res.redirect("/campgrounds")
+                } else {
+                    req.flash("success", "Campground deleted!")
+                    return res.redirect("/campgrounds")
+                }
+            })
         }
     })
 })
