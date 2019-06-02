@@ -173,6 +173,13 @@ Comment Destroy Route: /campgrounds/:id/comments/:comment_id =>  /:comment_id
 * Install and configure connect-flash
 * Add bootstrap alerts to header
 
+# Added in 15th commit:
+* UI Improvements (login and signup, navbar)
+* Pricing Feature
+* Google Maps
+* Time since (campground created, comment added), created with Moment
+ 
+
 RESTFUL ROUTES
 
 name     url                            verb      desc

@@ -1,21 +1,28 @@
 {{>header}}
-<div class="container">
     <div class="row">
         <div class="col">
             <h1 class="centered" style="text-align: center">Create a New Campground</h1>
             <div id="newCG" style="width: 30%; margin: 25px auto;">
                 <form action="/campgrounds" method="POST">
                     <div class="form-group">
-                        <input class="form-control" type="text" name="CGname" placeholder="name">
+                        <label for="CGname">Name</label>
+                        <input class="form-control" type="text" name="CGname">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="number" name="CGprice" placeholder="price" min="0.01" step="0.01">
+                        <label for="CGprice">Price</label>
+                        <input class="form-control" type="number" name="CGprice" min="0.01" step="0.01">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="CGimage" placeholder="image url">
+                        <label for="CGimage">Image</label>
+                        <input class="form-control" type="text" name="CGimage">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="CGdescription" placeholder="description">
+                        <label for="CGdescription">Description</label>
+                        <input class="form-control" type="text" name="CGdescription">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input class="form-control" type="text" name="location" id="location" placeholder="Yosemite National Park, CA">
                     </div>
                     <div class="form-group">
                         <button class="btn btn-lg btn-primary btn-block">Submit!</button>
@@ -25,5 +32,4 @@
             </div>
         </div>
     </div>
-</div>
 {{>footer}}

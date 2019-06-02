@@ -8,7 +8,14 @@ router.get("/", (req, res) => res.render("landing"))
 
 // Show Register Form
 router.get("/register", (req, res) => {
-    res.render("register");
+    console.log("rendering the /register page changing class")
+    res.render("register", {
+        CG: '',
+        newCG: '',
+        logout: '',
+        login: '',
+        register: 'active'
+    })
 })
 
 // Process Register Form
@@ -20,7 +27,7 @@ router.post("/register", (req, res) => {
             return res.redirect("/register")
         }
         passport.authenticate("local")(req, res, function() {
-            req.flash("success", "Welcome to YelpCamp" + user.username)
+            req.flash("success", "Welcome to YelpCamp, " + user.username + "!")
             res.redirect("/campgrounds")
         })
     })
@@ -28,7 +35,14 @@ router.post("/register", (req, res) => {
 
 // Show Login Form
 router.get("/login", (req, res) => {
-    res.render("login")
+    console.log("rendering the /login page changing class")
+    res.render("login", {
+        CG: '',
+        newCG: '',
+        logout: '',
+        login: 'active',
+        register: ''
+    })
 })
 
 // Handle Login Form
@@ -43,7 +57,7 @@ router.post("/login", passport.authenticate("local",
 router.get("/logout", (req, res) => {
     req.logout();
     req.flash("success", "Logged you out!")
-    res.redirect("/campgrounds")
+    res.redirect("/campgrounds")       
 })
 
 module.exports = router;

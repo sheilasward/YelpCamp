@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express"),
       exphbs = require("express-handlebars"),
       bodyParser = require("body-parser"),
@@ -38,6 +39,8 @@ app.use(flash())
 
 // Seed the databases
 //seedDB();
+
+app.locals.moment = require('moment');
 
 // Configure Passport
 app.use(require("express-session")({

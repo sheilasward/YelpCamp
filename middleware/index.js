@@ -59,7 +59,7 @@ middlewareObj.isLoggedIn = function(req, res, next) {
         return next();
     }
     req.flash("error", "You need to be logged in to do that")
-    res.redirect("/login")
+    return res.redirect("/login")
 }
 
 module.exports = middlewareObj;
