@@ -1,5 +1,4 @@
 {{>header}}
-<div class="container">
     <div class="row">
         <div class="col-md-3">
             <p class="display-4">Yelp Camp</p>
@@ -7,8 +6,8 @@
                 <li class="list-group-item active">Info 1</li>
                 <li class="list-group-item">Info 2</li>
                 <li class="list-group-item">Info 3</li>
-
             </div>
+            <div id="map"></div>
         </div>
         <div class="col-md-9">
             <div class="card">
@@ -17,7 +16,9 @@
                     <h4 class="float-right">${{campground.price}}/night</h4>
                     <h4 class="card-title"><a>{{campground.name}}</a></h4>
                     <p>{{campground.description}}</p>
-                    <p><em>Submitted by {{campground.author.username}}</em></p>
+                    <p>
+                        <em>Submitted by {{campground.author.username}}, {{fmt campground.createdAt}}</em>
+                    </p>
                     {{#ifCond req.user._id}}
                         <a class="btn btn-warning" href="/campgrounds/{{campground._id}}/edit">Edit</a>
                         <form class="delete-form" action="/campgrounds/{{campground._id}}?_method=DELETE" method="POST">
@@ -40,7 +41,7 @@
                     <div class="row">
                         <div class="col-md-12 ml-3">
                             <strong>{{this.author.username}}</strong>
-                            <span class="float-right mr-4">10 days ago</span>
+                            <span class="float-right mr-4">{{since this.createdAt}}</span>
                             <p>{{this.text}}</p>
 
                             {{#ifComm this.author.id}}
@@ -56,7 +57,35 @@
             </div>
         </div>
     </div>
-</div>
+
+    <script>
+        function initMap() {
+            var lat = {{campground.lat}};
+            var lng = {{campground.lng}};
+            var center = {lat: lat, lng: lng };
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: center,
+                scrollwheel: false
+            });
+            var contentString = `
+            <strong>{{campground.name}}<br />
+            {{campground.location}}</strong>
+            <p>{{campground.description}}</p>
+            `
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            var marker = new google.maps.Marker({
+                position: center,
+                map: map
+            });
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDB7kJiKA747emDPqQ03zExzH3JRgw2arM&callback=initMap"></script>
 {{>footer}}
 
 

@@ -1,0 +1,46 @@
+<div class="topnav">
+	<ul>
+        <li><a href="/">HOME</a></li>
+        <li><a href="/campgrounds" class="active">View Campgrounds</a>
+		<li><a href="/campgrounds/new" class="">Add Campground</a></li>
+
+		<li><a href="/login" class="">Login</a></li>
+		<li><a href="/register" class="">Sign Up</a></li>
+	</ul>
+</div>
+
+<div class="container">
+  <!--  Handle a flash error -->
+  {{#if error}}
+    <div class="container alert alert-danger" role="alert">
+        {{error}}
+    </div>
+  {{else}}
+    <div style="[display:none]">
+    </div>
+  {{/if}}
+
+  <!-- Handle a flash success -->
+  {{#if success}}
+    <div class="container alert alert-success" role="alert">
+        {{success}}
+    </div>
+  {{else}}
+    <div style="[display:none]">
+    </div>
+  {{/if}}
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script>
+  $('#mainNavbar').on('click', 'a', function() {
+    $('a.active').removeClass('active');
+    $(this).addClass('active');
+    console.log("Found this js file!")
+  });
+</script>
+
+</div>
+<div class="container">

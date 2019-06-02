@@ -11,3 +11,80 @@
     display: inline;
     margin-left: 10px;
 }
+
+.logH1 {
+    text-align: center;
+}
+
+.logDIV {
+    width: 30%;
+    margin: 25px auto;
+}
+
+/* Google Maps */
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+/*  Styles for Navbar */
+/*
+.topnav {
+    background-color: #5f5f5f;
+    color: #f1f1f1;
+    width: 100%;
+    padding: 0;
+}
+
+.topnav a:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.topnav a:active,
+.topnav a:focus {
+    background-color: #4CAF50;
+    color: #ffffff;
+}
+
+.content-left {
+    float: left;
+    width: 700px;
+    padding: 20px 0;
+}
+
+.content-right {
+    float: left;
+    width: 300px;
+    padding: 20px 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover{
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+    color: white;
+}
+*/

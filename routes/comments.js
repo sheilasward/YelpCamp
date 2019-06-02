@@ -31,6 +31,9 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
                     // Add username and id to comment
                     comment.author.id = req.user._id
                     comment.author.username = req.user.username
+                    // Create timestamp
+                    let ts = Date.now()
+                    comment.createdAt = moment(ts)
                     // Save comment
                     comment.save()
                     // Connect new comment to campground
@@ -39,7 +42,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
                     console.log(comment)
                     // Redirect campground show page
                     req.flash("success", "Comment added!")
-                    res.redirect("/campgrounds/" + campground._id);
+                    return res.redirect("/campgrounds/" + campground._id);
                 }
             })
         }
@@ -74,7 +77,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, (req, res) => {
             res.redirect("back")
         } else {
             req.flash("success", "Comment updated!")
-            res.redirect("/campgrounds/" + req.params.id)
+            return res.redirect("/campgrounds/" + req.params.id)
         }
     })
 })

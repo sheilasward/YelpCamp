@@ -9,14 +9,11 @@
             <li class="nav-item">
               <a href="/" class="nav-link">HOME</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                CAMPGROUNDS
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/campgrounds">VIEW</a>
-                <a class="dropdown-item" href="/campgrounds/new">ADD</a>
-              </div>
+            <li class="nav-item ml-4">
+              <a href="/campgrounds" class="nav-link {{CG}}">View Campgrounds</a>
+            </li>
+            <li class="nav-item ml-4">
+              <a href="/campgrounds/new" class="nav-link {{newCG}}">Add Campground</a>
             </li>
         </ul>
         <ul class="navbar-nav navbar-right">
@@ -25,14 +22,14 @@
               <a href="#" class="nav-link">Signed In As <strong>{{currentUser.username}}</strong></a>
             </li>
             <li class="nav-item">
-              <a href="/logout" class="nav-link">Logout</a>
+              <a href="/logout" class="nav-link {{logout}}">Logout</a>
             </li> 
           {{else}}              
             <li class="nav-item">
-              <a href="/login" class="nav-link">Login</a>
+              <a href="/login" class="nav-link {{login}}">Login</a>
             </li>  
             <li class="nav-item">
-              <a href="/register" class="nav-link">Sign Up</a>
+              <a href="/register" class="nav-link {{register}}">Sign Up</a>
             </li> 
           {{/if}}              
         </ul>
@@ -61,5 +58,5 @@
     <div style="[display:none]">
     </div>
   {{/if}}
-
 </div>
+<div class="container">
