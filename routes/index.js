@@ -2,13 +2,15 @@ const express = require("express"),
       router = express.Router(),
       passport = require("passport"),
       User = require("../models/user");
+/*      Campground = require("../models/campground");   */
+
+require('dotenv').config();
 
 // Landing Page
 router.get("/", (req, res) => res.render("landing"))
 
 // Show Register Form
 router.get("/register", (req, res) => {
-    console.log("rendering the /register page changing class")
     res.render("register", {
         CG: '',
         newCG: '',
@@ -20,14 +22,25 @@ router.get("/register", (req, res) => {
 
 // Process Register Form
 router.post("/register", (req, res) => {
-    let newUser = new User({username: req.body.username});
+    let newUser = new User(
+        {
+            username: req.body.username,
+            firstName: req.body.firstname,
+            lastName: req.body.lastname,
+            avatar: req.body.avatar,
+            email: req.body.email
+        }
+    );
+    if (req.body.adminCode == process.env.ADMIN_CODE) {
+        newUser.isAdmin = true
+    }
     User.register(newUser, req.body.password, function(err, user) {
         if (err) {
             req.flash("error", err.message)
             return res.redirect("/register")
         }
         passport.authenticate("local")(req, res, function() {
-            req.flash("success", "Welcome to YelpCamp, " + user.username + "!")
+            req.flash("success", "Successfully Signed Up! Nice to meet you " + user.username + "!")
             res.redirect("/campgrounds")
         })
     })

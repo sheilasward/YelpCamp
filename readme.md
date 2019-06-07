@@ -178,6 +178,9 @@ Comment Destroy Route: /campgrounds/:id/comments/:comment_id =>  /:comment_id
 * Pricing Feature
 * Google Maps
 * Time since (campground created, comment added), created with Moment
+
+# Added in 16th commit:
+
  
 
 RESTFUL ROUTES
