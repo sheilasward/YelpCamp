@@ -7,6 +7,7 @@ const express = require("express"),
       Campground = require("../models/campground");
 
 moment = require('moment');
+
 // Set up NodeGeocoder
 var NodeGeocoder = require('node-geocoder');
  
@@ -117,19 +118,16 @@ router.get("/:id", (req, res) => {
                 register: '',
                 helpers: {
                     ifCond: function(v1, options) {
-                        console.log(v1)
                         if (req.isAuthenticated()) {
-                            if (foundCampground.author.id.equals(req.user._id)) {
+                            if (foundCampground.author.id.equals(req.user._id) || req.user.isAdmin) {
                                 return options.fn(this);
                             }
                             return options.inverse(this);
                         }
                     },
                     ifComm: function(v1, options) {
-                        console.log("v1 = " + v1)
                         if (req.isAuthenticated()) {
-                            console.log("req.user._id = " + req.user._id)
-                            if (v1.equals(req.user._id)) {
+                            if (v1.equals(req.user._id) || req.user.isAdmin) {
                                 return options.fn(this);
                             }
                             return options.inverse(this);

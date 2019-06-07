@@ -19,7 +19,9 @@ const Campground = require("./models/campground"),
 // Require Routes
 const commentRoutes = require("./routes/comments"),
       campgroundRoutes = require("./routes/campgrounds"),
-      indexRoutes = require("./routes/index")
+      indexRoutes = require("./routes/index"),
+      adminRoutes = require("./routes/admins"),
+      userRoutes = require("./routes/users");
 
 // turn on debugging so you can see what's being sent to mongodb
 mongoose.set("debug", true);
@@ -64,5 +66,7 @@ app.use(function(req, res, next) {
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/users", userRoutes);
+app.use("/admins", adminRoutes);
 
 app.listen(PORT, () => console.log("The YelpCamp Server Has Started!"))

@@ -17,7 +17,7 @@
                     <h4 class="card-title"><a>{{campground.name}}</a></h4>
                     <p>{{campground.description}}</p>
                     <p>
-                        <em>Submitted by {{campground.author.username}}, {{fmt campground.createdAt}}</em>
+                        <em>Submitted by <a href="/users/{{campground.author.id}}">{{campground.author.username}}</a>, {{fmt campground.createdAt}}</em>
                     </p>
                     {{#ifCond req.user._id}}
                         <a class="btn btn-warning" href="/campgrounds/{{campground._id}}/edit">Edit</a>
